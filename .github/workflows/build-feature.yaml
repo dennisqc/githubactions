@@ -20,5 +20,5 @@ jobs:
             distribution: 'temurin'
         - name: Build with maven
           run: |
-            mvnw clean install
+            mvn clean install
             echo "Build successful"
