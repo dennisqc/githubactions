@@ -1,0 +1,24 @@
+#crear un workflow 
+name: build and test feature branch
+on:
+  push:
+    branches:
+      - feature/*
+jobs:
+  build-feature:    
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+        - name: pull and checkout from git repository
+
+          run: |
+            echo "Pulling and checking out from git repository"
+        - name: Set up JDK 17
+          uses: actions/setup-java@v3
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+        - name: Build with maven
+          run: |
+            mvn clean install
+            echo "Build successful"
