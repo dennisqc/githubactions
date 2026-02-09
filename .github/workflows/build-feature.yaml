@@ -1,16 +1,18 @@
 #crear un workflow 
 name: build and test feature branch
 on:
-  push:
-    branches:
-      - feature/*
+  pull_request:
+    branches: [develop]
+    types: [opened, reopened] 
 jobs:
   build-feature:    
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v3
-        - name: pull and checkout from git repository
+          with: 
+            ref: ${{ github.event.pull_request.head.ref }}
 
+        - name: pull and checkout from git repository
           run: |
             echo "Pulling and checking out from git repository"
         - name: Set up JDK 17
@@ -18,6 +20,13 @@ jobs:
           with:
             java-version: '17'
             distribution: 'temurin'
+        - name: Cache maven dependencies
+          uses: actions/cache@v2
+          with: 
+            path: ~/.m2/repository
+            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  
+            restore-keys: ${{ runner.os }}-maven-
+              
         - name: Build with maven
           run: |
             mvn clean install
