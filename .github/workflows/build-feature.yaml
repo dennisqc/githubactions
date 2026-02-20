@@ -2,7 +2,7 @@ name: Stats
 
 on: 
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   build:
@@ -27,4 +27,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Update stats
-          
